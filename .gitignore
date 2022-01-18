@@ -1,0 +1,13 @@
+# Ignore Vagrant files
+**/.vagrant
+
+# Ignore sensitive security files
+**/id_rsa
+**/authorized_keys
+**/*.pub
+**/*.ppk
+**/pk_protheus
+**/private_key
+
+# Vscodee files
+**/.vscode
