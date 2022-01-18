@@ -83,3 +83,6 @@ ansible -i provisioning/hosts web -m ping
 ## Check playbook syntax
 
 `ansible-playbook playbook.yml --syntax-check`
+
+
+
