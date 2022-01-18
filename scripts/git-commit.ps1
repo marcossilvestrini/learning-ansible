@@ -12,7 +12,7 @@ If ($null -ne $check ) {
     #$commit = "feat: Add new examples"
     git add .
     git commit -m $commit
-    git push origin master
+    git push origin main
     $out = git status
     $check = $null
     $check = $out | Select-String -Pattern "untracked"
