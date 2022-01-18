@@ -1,6 +1,6 @@
 $project = "F:\Projetos\udemy\ansible"
 Set-Location $project
-git checkout master
+git checkout main
 git pull
 git status
 $out = git status

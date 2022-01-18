@@ -11,8 +11,8 @@ Atention for pre requisites and License!!!
 
 Virtual Box\
 Vagrant\
-Ansible\
-Python3
+Python3\
+Ansible
 
 ## Authors
 
@@ -24,28 +24,19 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 
 ## References
 
-[Virtualbox Docs](https://www.virtualbox.org/wiki/Documentation)\
-[Vagrant Docs](https://www.vagrantup.com/docs/index.html)\
+[Ansible Core Docs](https://docs.ansible.com/ansible-core/devel/index.html)\
 [Ansible Main Page](https://docs.ansible.com/)\
-[Ansible Core Docs](https://docs.ansible.com/ansible-core/devel/index.html)
+[Virtualbox Docs](https://www.virtualbox.org/wiki/Documentation)\
+[Vagrant Docs](https://www.vagrantup.com/docs/index.html)
 
 ## Install Ansible in Rhel Centos 7\8
 
-`sudo yum install epel-release`
-`sudo yum install ansible`
-
-## Setup Client server
-
 ```sh
-adduser ansible
-passwd ansible
-ssh-keygen
-vi ~/.ssh/authorized_keys
+sudo yum install epel-release
+sudo yum install ansible
 ```
 
-Add your id_rsa.pub in authorized_keys for ansible ssh conection
-
-## Setup Inventory file
+## Setup Inventory file examples
 
 ```sh
 [all]
@@ -92,13 +83,3 @@ ansible -i provisioning/hosts web -m ping
 ## Check playbook syntax
 
 `ansible-playbook playbook.yml --syntax-check`
-
-## Roles
-
-### Wordpress
-
-Up Wordpress Stack with vagrant and ansible
-
-### Protheus
-
-Up Protheus Stack with vagrant and ansible
