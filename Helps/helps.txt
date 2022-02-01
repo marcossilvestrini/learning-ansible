@@ -1,0 +1,39 @@
+----------------------------------------
+#Vagrant
+
+#sync files
+rsync -avzh --exclude=.vagrant --exclude=.git --progress /mnt/projects/alura/alura-lpi/Debian_Ubuntu/boxes/Ubuntu/desktop/Vagrantfile /home/marcos.silvestrini/vagrant-ubuntu-desktop
+
+# Copy files vagrant machine
+vagrant scp ~/vagrant-protheus-core/install/license.zip ol8-protheus:/totvs/install
+
+#Alter VAGRANT_HOME in windows
+Edit file:
+E:\Apps\Vagrant\embedded\gems\2.2.18\gems\vagrant-2.2.18\lib\vagrant\environment.rb
+Alter this line: @home_path  = Util::Platform.fs_real_path(@home_path)
+To: @home_path  = Util::Platform.fs_real_path("E:/Vagrant/")
+
+
+-----------------------------------------
+#Windows
+
+-----------------------------------------
+Windows - Open terminal tabs
+wt -d "" -p "Command Promt" vagrant status ; split-pane -d "" vagrant status
+-----------------------------------------
+
+-----------------------------------------
+Windows - Folder of Apps Windows Store
+shell:AppsFolder
+-----------------------------------------
+
+Windows  - list PackageFullName windows apps
+get-appxpackage
+
+Windows - Open windows apps
+start shell:appsFolder\[TARGET]!App
+
+Example open Google Chat:
+$target=(get-appxpackage | Where-Object {$_.Name -like "*google*"}).PackageFullName
+start "shell:appsFolder\mail.google.com-98783EC6_1.0.0.1_neutral__vq8mrer2vmnwe!Google Chat"
+------------------------------------------

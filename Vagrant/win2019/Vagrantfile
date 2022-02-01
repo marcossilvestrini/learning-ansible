@@ -1,0 +1,68 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+# INSTALL PLUGINS
+unless Vagrant.has_plugin?("vagrant-reload")
+  puts 'Installing vagrant-reload Plugin...'
+  system('vagrant plugin install vagrant-reload')
+end
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  # Box Windows Server 2019 Standart
+  config.vm.box = "gusztavvargadr/windows-server-standard-core"
+  config.vbguest.auto_update = true
+
+  # VM AD
+  config.vm.define "win2019-ansible" do |win2019_ansible|
+
+    # VARIABLE HOSTNAME
+    VM_DC_NAME= "win2019-ansible"
+
+    # Set Others parameters for windows vm
+    win2019_ansible.vm.guest = :windows
+    win2019_ansible.vm.communicator = "winrm"
+    win2019_ansible.vm.boot_timeout = 1200
+    win2019_ansible.vm.graceful_halt_timeout = 600
+    win2019_ansible.winrm.timeout = 1800
+    win2019_ansible.winrm.retry_limit = 200
+    win2019_ansible.winrm.retry_delay = 10
+    win2019_ansible.winrm.max_tries = 20
+    win2019_ansible.winrm.transport = :plaintext
+    win2019_ansible.winrm.basic_auth_only = true
+
+    # HOSTNAME
+    win2019_ansible.vm.hostname = "WIN2019-ANSIBLE"
+    # NETWORK
+    win2019_ansible.vm.network "public_network" ,ip: "192.168.0.136"
+
+    # MOUNTS
+    win2019_ansible.vm.synced_folder ".", "/vagrant", disabled: true
+    win2019_ansible.vm.synced_folder "./scripts", "/scripts"
+
+    # PROVIDER
+    win2019_ansible.vm.provider "virtualbox" do |vb|
+      vb.linked_clone = true
+      vb.name = VM_DC_NAME
+      vb.memory = 2048
+      vb.cpus = 3
+    end
+
+    # PROVISION
+
+    # SETUP ANSIBLE
+    win2019_ansible.vm.provision "shell", path: "scripts/setup_ansible.ps1"
+
+    # SETUP AD SERVER
+    # win2019_ansible.vm.provision "ansible" do |ansible|
+    #   ansible.limit = "all"
+    #   ansible.inventory_path = "provisioning/hosts"
+    #   ansible.playbook = "provisioning/domain_controler.yml"
+    # end
+
+  end
+
+end
