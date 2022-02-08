@@ -40,22 +40,32 @@ sudo yum install ansible
 
 ```sh
 [all]
+192.168.0.134
 192.168.0.135
 192.168.0.136
 
-[web]
-192.168.0.135
+[debian]
+192.168.0.134
 
-[web:vars]
+[debian:vars]
 ansible_user=ansible
 ansible_ssh_private_key_file=~/.ssh/id_rsa
 ansible_python_interpreter=/usr/bin/python3
 ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 
-[db]
+[ol8]
+192.168.0.135
+
+[ol8:vars]
+ansible_user=ansible
+ansible_ssh_private_key_file=~/.ssh/id_rsa
+ansible_python_interpreter=/usr/bin/python3
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+
+[win]
 192.168.0.136
 
-[db:vars]
+[win:vars]
 ansible_user=ansible
 ansible_ssh_private_key_file=~/.ssh/id_rsa
 ansible_python_interpreter=/usr/bin/python3
