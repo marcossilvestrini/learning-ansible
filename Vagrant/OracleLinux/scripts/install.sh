@@ -21,4 +21,3 @@ sudo dnf -y upgrade
 # Install packages
 sudo dnf -y install vim
 sudo dnf -y install net-tools
-sudo dnf -y install git

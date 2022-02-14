@@ -13,7 +13,7 @@ end
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "debian/bullseye64"
 
-  # VM ubuntu-server
+  # VM debian server
   config.vm.define "debian_ansible"  do |debian_ansible|
 
     # VARIABLE HOSTNAME
@@ -38,7 +38,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       vb.linked_clone = true
       vb.name = APP_NAME
       vb.memory = 2048
-      vb.cpus = 3
+      vb.cpus = 2
     end
 
     # PROVISION

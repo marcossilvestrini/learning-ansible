@@ -39,48 +39,41 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vbguest.auto_update = false
   config.vbguest.no_remote = true
 
-  # VM ol8_lpic_ansible
-  config.vm.define "ol8_lpic_ansible"  do |ol8_lpic_ansible|
+  # VM ol8_ansible
+  config.vm.define "ol8_ansible"  do |ol8_ansible|
 
     # VARIABLE HOSTNAME
    APP_NAME= "ol8-ansible"
 
     # HOSTNAME
-    ol8_lpic_ansible.vm.hostname =APP_NAME
+    ol8_ansible.vm.hostname =APP_NAME
 
     # NETWORK
-    ol8_lpic_ansible.vm.network "public_network" ,ip: "192.168.0.135",mode: "bridge",bridge: [
+    ol8_ansible.vm.network "public_network" ,ip: "192.168.0.135",mode: "bridge",bridge: [
     "ens32",
     "Marvell AQtion 5Gbit Network Adapter"
     ]
 
     # Forward Port
-    # ol8_lpic_ansible.vm.network "forwarded_port", guest: 8020, host: 9020, adapter: 1, guest_ip: "192.168.0.133" ,host_ip: "192.168.0.33"
-    # ol8_lpic_ansible.vm.network "forwarded_port", guest: 2234, host: 3234, adapter: 1, guest_ip: "192.168.0.133" ,host_ip: "192.168.0.33"
+    # ol8_ansible.vm.network "forwarded_port", guest: 8020, host: 9020, adapter: 1, guest_ip: "192.168.0.133" ,host_ip: "192.168.0.33"
+    # ol8_ansible.vm.network "forwarded_port", guest: 2234, host: 3234, adapter: 1, guest_ip: "192.168.0.133" ,host_ip: "192.168.0.33"
 
     # MOUNTS
-    ol8_lpic_ansible.vm.synced_folder ".", "/vagrant", disabled: true
-    ol8_lpic_ansible.vm.synced_folder "./security", "/home/vagrant/security"
-    ol8_lpic_ansible.vm.synced_folder "./configs", "/home/vagrant/configs"
+    ol8_ansible.vm.synced_folder ".", "/vagrant", disabled: true
+    ol8_ansible.vm.synced_folder "./security", "/home/vagrant/security"
+    ol8_ansible.vm.synced_folder "./configs", "/home/vagrant/configs"
 
     # PROVIDER
-    ol8_lpic_ansible.vm.provider "virtualbox" do |vb|
+    ol8_ansible.vm.provider "virtualbox" do |vb|
       vb.linked_clone = true
       vb.name =APP_NAME
       vb.memory = 2048
-      vb.cpus = 3
+      vb.cpus = 2
     end
 
     # SHELL PROVISIONING
     # SSH,FIREWALLD,SELINUX, UPDATES AND PROFILE
-    ol8_lpic_ansible.vm.provision "shell", path: "scripts/install.sh"
-
-    # ANSIBLE PROVISIONING
-    # ol8_lpic_ansible.vm.provision "ansible" do |ansible|
-    #   ansible.limit = "all"
-    #   ansible.inventory_path = "provisioning/hosts"
-    #   ansible.playbook = "provisioning/app.yml"
-    # end
+    ol8_ansible.vm.provision "shell", path: "scripts/install.sh"
 
   end
 
