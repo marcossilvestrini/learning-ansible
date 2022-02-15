@@ -24,12 +24,63 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 
 ## References
 
-[Ansible Core Docs](https://docs.ansible.com/ansible-core/devel/index.html)\
-[Ansible Main Page](https://docs.ansible.com/)\
 [Virtualbox Docs](https://www.virtualbox.org/wiki/Documentation)\
 [Vagrant Docs](https://www.vagrantup.com/docs/index.html)
+[Ansible Core Docs](https://docs.ansible.com/ansible-core/devel/index.html)\
+[Ansible Main Page](https://docs.ansible.com/)\
+[Ansible Tutorial](https://www.javatpoint.com/ansible)
 
-## Install Ansible in Rhel Centos 7\8
+## Ansible Architeture
+
+![image](https://user-images.githubusercontent.com/62715900/153963404-c0b87db7-dd0e-4c46-9b40-9b23e31593d8.png)
+
+
+### Inventory
+
+Inventory is lists of nodes or hosts having their IP addresses, databases, servers, etc. which are need to be managed.
+
+### API's
+
+The Ansible API's works as the transport for the public or private cloud services.
+
+### Modules
+
+Ansible connected the nodes and spread out the Ansible modules programs. Ansible executes the modules and removed after finished. These modules can reside on any machine; no database or servers are required here. You can work with the chose text editor or a terminal or version control system to keep track of the changes in the content.
+
+### Plugins
+
+Plugins is a piece of code that expends the core functionality of Ansible. There are many useful plugins, and you also can write your own.
+
+### Playbooks
+
+Playbooks consist of your written code, and they are written in YAML format, which describes the tasks and executes through the Ansible. Also, you can launch the tasks synchronously and asynchronously with playbooks.
+
+### Hosts
+
+In the Ansible architecture, hosts are the node systems, which are automated by Ansible, and any machine such as RedHat, Linux, Windows, etc.
+
+### Networking
+
+Ansible is used to automate different networks, and it uses the simple, secure, and powerful agentless automation framework for IT operations and development. It uses a type of data model which separated from the Ansible automation engine that spans the different hardware quite easily.
+
+### Cloud
+
+A cloud is a network of remote servers on which you can store, manage, and process the data. These servers are hosted on the internet and storing the data remotely rather than the local server. It just launches the resources and instances on the cloud, connect them to the servers, and you have good knowledge of operating your tasks remotely.
+
+### CMDB
+
+CMDB is a type of repository which acts as a data warehouse for the IT installations.
+
+## Install Ansible
+
+
+### Debian
+
+```sh
+sudo apt install -y ansible
+```
+
+### Rhel Centos 7\8
 
 ```sh
 sudo yum install epel-release

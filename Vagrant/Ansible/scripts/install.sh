@@ -13,3 +13,6 @@ cat /home/vagrant/security/id_rsa.pub >>/home/vagrant/.ssh/authorized_keys
 # Install vim
 sudo apt install -y vim
 sudo apt install -y net-tools
+
+# Install Ansible
+sudo apt install -y ansible

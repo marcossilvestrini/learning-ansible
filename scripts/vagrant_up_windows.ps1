@@ -1,7 +1,7 @@
 #Vagrant Boxes
+$win = "F:\Projetos\udemy\ansible\Vagrant\win2019"
 $debian = "F:\Projetos\udemy\ansible\Vagrant\Debian"
 $ol8 = "F:\Projetos\udemy\ansible\Vagrant\OracleLinux"
-$win = "F:\Projetos\udemy\ansible\Vagrant\win2019"
 $ansible = "F:\Projetos\udemy\ansible\Vagrant\Ansible"
 
 #up windows
@@ -13,16 +13,19 @@ While (Get-Process -name vagrant -ErrorAction SilentlyContinue) { continue }
 Set-Location $debian
 vagrant up
 While (Get-Process -name vagrant -ErrorAction SilentlyContinue) { continue }
+Copy-Item .\.vagrant\machines\debian_ansible\virtualbox\private_key F:\Projetos\vagrant-pk\vagrant-ansible-debian
 
 #up centos
 Set-Location $ol8
 vagrant up
 While (Get-Process -name vagrant -ErrorAction SilentlyContinue) { continue }
+Copy-Item .\.vagrant\machines\ol8_ansible\virtualbox\private_key F:\Projetos\vagrant-pk\vagrant-ansible-ol8
 
 #up ansible
 Set-Location $ansible
 vagrant up
 While (Get-Process -name vagrant -ErrorAction SilentlyContinue) { continue }
+Copy-Item .\.vagrant\machines\debian_ansible_master\virtualbox\private_key F:\Projetos\vagrant-pk\vagrant-ansible-master-debian
 
 #Fix powershell error
 $Env:VAGRANT_PREFER_SYSTEM_BIN += 0
