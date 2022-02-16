@@ -15,4 +15,6 @@ sudo apt install -y vim
 sudo apt install -y net-tools
 
 # Install Ansible
-sudo apt install -y ansible
+#sudo apt install -y ansible
+sudo apt install -y python3-pip
+sudo pip3 install --no-cache-dir ansible

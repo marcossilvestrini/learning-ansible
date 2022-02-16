@@ -29,6 +29,9 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 [Ansible Core Docs](https://docs.ansible.com/ansible-core/devel/index.html)\
 [Ansible Main Page](https://docs.ansible.com/)\
 [Ansible Tutorial](https://www.javatpoint.com/ansible)
+[Ansible Configuration Settings](https://docs.ansible.com/ansible/latest/reference_appendices/config.html)
+[Ansible Configuration Examples](https://github.com/ansible/ansible/blob/devel/examples/ansible.cfg)
+[Best Practices](https://docs.ansible.com/ansible/2.9/user_guide/playbooks_best_practices.html#id9)
 
 ## Ansible Architeture
 
@@ -73,7 +76,6 @@ CMDB is a type of repository which acts as a data warehouse for the IT installat
 
 ## Install Ansible
 
-
 ### Debian
 
 ```sh
@@ -85,6 +87,22 @@ sudo apt install -y ansible
 ```sh
 sudo yum install epel-release
 sudo yum install ansible
+```
+
+### Install Ansible with pip(Recommended)
+
+```sh
+pip install ansible
+```
+
+## Generate ansible.cfg
+
+```sh
+#To generate an example config file (a "disabled" one with all default settings, commented out)
+ansible-config init --disabled > ansible.cfg
+
+#Also you can now have a more complete file by including existing plugins
+ansible-config init --disabled -t all > ansible.cfg
 ```
 
 ## Setup Inventory file examples
