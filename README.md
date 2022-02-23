@@ -37,7 +37,6 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 
 ![image](https://user-images.githubusercontent.com/62715900/153963404-c0b87db7-dd0e-4c46-9b40-9b23e31593d8.png)
 
-
 ### Inventory
 
 Inventory is lists of nodes or hosts having their IP addresses, databases, servers, etc. which are need to be managed.
