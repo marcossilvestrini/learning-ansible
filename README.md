@@ -94,7 +94,10 @@ sudo yum install ansible
 pip install ansible
 ```
 
-## Generate ansible.cfg
+
+## About ansible.cfg
+
+### Generate ansible.cfg
 
 ```sh
 #To generate an example config file (a "disabled" one with all default settings, commented out)
@@ -102,6 +105,49 @@ ansible-config init --disabled > ansible.cfg
 
 #Also you can now have a more complete file by including existing plugins
 ansible-config init --disabled -t all > ansible.cfg
+```
+
+### Examples custom ansible.cfg
+
+```sh
+[defaults]
+
+#--- General settings
+interpreter_python             = auto_legacy_silent
+forks                           = 5
+log_path                        = /var/log/ansible.log
+module_name                     = command
+executable                      = /bin/bash
+ansible_managed                 = Ansible managed
+
+#--- Files/Directory settings
+inventory                       = /etc/ansible/hosts
+library                         = /usr/share/ansible/plugins/modules
+local_tmp                       = ~/.ansible/tmp
+roles_path                      = /etc/ansible/roles
+
+#--- Users settings
+remote_user                     = root
+ask_pass                        = False
+
+#--- SSH settings
+private_key_file                = ~/.ssh/id_rsa
+remote_port                     = 22
+timeout                         = 10
+host_key_checking               = False
+
+[privilege_escalation]
+
+become                          = True
+become_ask_pass                 = False
+become_method                   = sudo
+become_user                     = root
+
+[persistent_connection]
+
+command_timeout                 = 30
+connect_timeout                 = 30
+
 ```
 
 ## Setup Inventory file examples
@@ -141,6 +187,19 @@ ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 ```
 
 ## Ad-Hoc Commands
+
+### Commom Options
+
+-i=inventory
+-u=user
+-k=password(ask_pass)
+-K=elevated privilege user(become)
+-b=execute elevate privilege
+-v,-vv,-vvv=verbose
+-m=define module
+-a=module args
+-- help= helps
+
 
 ### Collect and Display infos of server
 

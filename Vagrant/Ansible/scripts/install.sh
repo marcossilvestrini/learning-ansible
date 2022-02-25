@@ -20,6 +20,9 @@ sudo apt install -y git
 sudo apt install -y python3-pip
 sudo pip3 install --no-cache-dir ansible
 
-#Clone Project Repository
+#Clone Project Repository files
+rm -rf ansible/
 git clone https://github.com/marcossilvestrini/learning-ansible.git
-mkdir ansible
+mv learning-ansible ansible
+rm -rf ansible/Configs/ ansible/Vagrant ansible/diagrams ansible/scripts ansible/Helps LICENSE README.md
+rm ansible/LICENSE ansible/README.md
