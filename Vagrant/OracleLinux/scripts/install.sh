@@ -1,14 +1,17 @@
 #!/bin/bash
 
+cd /home/vagrant
+
 #Set profile in /etc/profile
-sudo cp -f /home/vagrant/configs/profile /etc
+sudo cp -f configs/profile /etc
 
 # Set bash session
-rm /home/vagrant/.bashrc
-cp -f /home/vagrant/configs/.bashrc /home/vagrant
+rm .bashrc
+cp -f configs/.bashrc .
 
 # SSH,FIREWALLD AND SELINUX
-cat /home/vagrant/security/id_rsa.pub >>/home/vagrant/.ssh/authorized_keys
+cat security/id_rsa.pub >>.ssh/authorized_keys
+cat security/id_rsa_ansible.pub >>.ssh/authorized_keys
 sudo systemctl stop firewalld
 sudo systemctl disable firewalld
 sudo setenforce Permissive
