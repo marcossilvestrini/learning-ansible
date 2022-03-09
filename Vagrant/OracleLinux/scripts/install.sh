@@ -11,7 +11,7 @@ cp -f configs/.bashrc .
 
 # SSH,FIREWALLD AND SELINUX
 cat security/id_rsa.pub >>.ssh/authorized_keys
-cat security/id_rsa_ansible.pub >>.ssh/authorized_keys
+cat security/id_ecdsa.pub >>.ssh/authorized_keys
 sudo systemctl stop firewalld
 sudo systemctl disable firewalld
 sudo setenforce Permissive

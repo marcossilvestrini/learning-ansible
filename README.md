@@ -25,12 +25,12 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 ## References
 
 [Virtualbox Docs](https://www.virtualbox.org/wiki/Documentation)\
-[Vagrant Docs](https://www.vagrantup.com/docs/index.html)
+[Vagrant Docs](https://www.vagrantup.com/docs/index.html)\
 [Ansible Core Docs](https://docs.ansible.com/ansible-core/devel/index.html)\
 [Ansible Main Page](https://docs.ansible.com/)\
-[Ansible Tutorial](https://www.javatpoint.com/ansible)
-[Ansible Configuration Settings](https://docs.ansible.com/ansible/latest/reference_appendices/config.html)
-[Ansible Configuration Examples](https://github.com/ansible/ansible/blob/devel/examples/ansible.cfg)
+[Ansible Tutorial](https://www.javatpoint.com/ansible)\
+[Ansible Configuration Settings](https://docs.ansible.com/ansible/latest/reference_appendices/config.html)\
+[Ansible Configuration Examples](https://github.com/ansible/ansible/blob/devel/examples/ansible.cfg)\
 [Best Practices](https://docs.ansible.com/ansible/2.9/user_guide/playbooks_best_practices.html#id9)
 
 ## Ansible Architeture
@@ -93,7 +93,6 @@ sudo yum install ansible
 ```sh
 pip install ansible
 ```
-
 
 ## About ansible.cfg
 
@@ -190,14 +189,14 @@ ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 
 ### Commom Options
 
--i=inventory
--u=user
--k=password(ask_pass)
--K=elevated privilege user(become)
--b=execute elevate privilege
--v,-vv,-vvv=verbose
--m=define module
--a=module args
+-i=inventory\
+-u=user\
+-k=password(ask_pass)\
+-K=elevated privilege user(become)\
+-b=execute elevate privilege\
+-v,-vv,-vvv=verbose\
+-m=define module\
+-a=module args\
 -- help= helps
 
 

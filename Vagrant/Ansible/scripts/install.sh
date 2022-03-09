@@ -38,4 +38,4 @@ rm ansible/LICENSE ansible/README.md
 
 # Set ssh
 cat security/id_rsa.pub >>.ssh/authorized_keys
-cp -f security/id_rsa_ansible* .ssh/
+cp -f security/id_ecdsa* .ssh/

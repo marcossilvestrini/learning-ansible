@@ -3,6 +3,7 @@
 
 # Ignore sensitive security files
 **/id_rsa*
+**/id_ecdsa*
 **/authorized_keys
 **/*.pub
 
