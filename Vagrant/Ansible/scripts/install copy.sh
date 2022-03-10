@@ -2,9 +2,6 @@
 
 cd /home/vagrant
 
-#Set password account
-usermod --password $(echo vagrant | openssl passwd -1 -stdin) vagrant
-
 #Set profile in /etc/profile
 cp -f configs/profile /etc
 
@@ -13,7 +10,6 @@ rm .bashrc
 cp -f configs/.bashrc .
 
 # Install Packages
-apt install -y sshpass
 apt install -y vim
 apt install -y net-tools
 apt install -y git
@@ -24,6 +20,7 @@ apt install -y python3-pip
 pip3 install --no-cache-dir ansible
 
 #Clone Project Repository files
+
 rm -rf ansible/
 git clone https://github.com/marcossilvestrini/learning-ansible.git
 mv learning-ansible ansible
@@ -41,10 +38,4 @@ rm ansible/LICENSE ansible/README.md
 
 # Set ssh
 cat security/id_rsa.pub >>.ssh/authorized_keys
-echo vagrant | $(su -c "ssh-keygen -q -t ecdsa -b 521 -N '' -f .ssh/id_ecdsa <<<y >/dev/null 2>&1" -s /bin/bash vagrant)
-
-#Copy public keys for clients
-echo vagrant | $(su -c "ssh-keyscan 192.168.0.134 >>.ssh/known_hosts" -s /bin/bash vagrant)
-echo vagrant | $(su -c "ssh-keyscan 192.168.0.135 >>.ssh/known_hosts" -s /bin/bash vagrant)
-echo vagrant | $(su -c "sshpass -p "vagrant" ssh-copy-id -i /home/vagrant/.ssh/id_ecdsa.pub vagrant@192.168.0.134" -s /bin/bash vagrant)
-echo vagrant | $(su -c "sshpass -p "vagrant" ssh-copy-id -i /home/vagrant/.ssh/id_ecdsa.pub vagrant@192.168.0.135" -s /bin/bash vagrant)
+cp -f security/id_ecdsa* .ssh/

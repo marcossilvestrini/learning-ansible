@@ -1,13 +1,8 @@
 #Vagrant Boxes
-$ansible = "F:\Projetos\udemy\ansible\Vagrant\Ansible"
 $debian = "F:\Projetos\udemy\ansible\Vagrant\Debian"
 $ol8 = "F:\Projetos\udemy\ansible\Vagrant\OracleLinux"
+$ansible = "F:\Projetos\udemy\ansible\Vagrant\Ansible"
 $win = "F:\Projetos\udemy\ansible\Vagrant\win2019"
-
-#up ansible
-Set-Location $ansible
-vagrant up
-Copy-Item .\.vagrant\machines\debian_ansible_master\virtualbox\private_key F:\Projetos\vagrant-pk\vagrant-ansible-master-debian
 
 #up debian
 Set-Location $debian
@@ -18,6 +13,11 @@ Copy-Item .\.vagrant\machines\debian_ansible\virtualbox\private_key F:\Projetos\
 Set-Location $ol8
 vagrant up
 Copy-Item .\.vagrant\machines\ol8_ansible\virtualbox\private_key F:\Projetos\vagrant-pk\vagrant-ansible-ol8
+
+#up ansible
+Set-Location $ansible
+vagrant up
+Copy-Item .\.vagrant\machines\debian_ansible_master\virtualbox\private_key F:\Projetos\vagrant-pk\vagrant-ansible-master-debian
 
 # #up windows
 # Set-Location $win
