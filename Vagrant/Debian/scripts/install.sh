@@ -12,8 +12,10 @@ cp -f configs/profile /etc
 rm .bashrc
 cp -f configs/.bashrc .
 
-# Set ssh
-cat security/id_rsa.pub >>.ssh/authorized_keys
-
-# Install vim
+# Install Packages
 apt install -y vim
+
+# Set ssh
+cp -f configs/01-sshd-custom.conf /etc/ssh/sshd_config.d
+systemctl restart sshd
+cat security/id_ecdsa.pub >>.ssh/authorized_keys

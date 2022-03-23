@@ -15,8 +15,21 @@ cp -f configs/.bashrc .
 # Install Packages
 apt install -y sshpass
 apt install -y vim
+apt install -y tree
 apt install -y net-tools
 apt install -y git
+
+# Set ssh
+cp -f configs/01-sshd-custom.conf /etc/ssh/sshd_config.d
+cat security/id_ecdsa.pub >>.ssh/authorized_keys
+echo vagrant | $(su -c "ssh-keygen -q -t ecdsa -b 521 -N '' -f .ssh/id_ecdsa <<<y >/dev/null 2>&1" -s /bin/bash vagrant)
+systemctl restart sshd
+
+#Copy public keys for clients
+echo vagrant | $(su -c "ssh-keyscan 192.168.0.134 >>.ssh/known_hosts" -s /bin/bash vagrant)
+echo vagrant | $(su -c "ssh-keyscan 192.168.0.135 >>.ssh/known_hosts" -s /bin/bash vagrant)
+echo vagrant | $(su -c "sshpass -p "vagrant" ssh-copy-id -i /home/vagrant/.ssh/id_ecdsa.pub vagrant@192.168.0.134" -s /bin/bash vagrant)
+echo vagrant | $(su -c "sshpass -p "vagrant" ssh-copy-id -i /home/vagrant/.ssh/id_ecdsa.pub vagrant@192.168.0.135" -s /bin/bash vagrant)
 
 # Install Ansible
 #sudo apt install -y ansible
@@ -38,13 +51,3 @@ chmod 447 /var/log/ansible.log
 mv ansible/Configs/ansible_custom.cfg /etc/ansible/ansible.cfg
 rm -rf ansible/Configs/ ansible/Vagrant ansible/diagrams ansible/scripts ansible/Helps LICENSE README.md
 rm ansible/LICENSE ansible/README.md
-
-# Set ssh
-cat security/id_rsa.pub >>.ssh/authorized_keys
-echo vagrant | $(su -c "ssh-keygen -q -t ecdsa -b 521 -N '' -f .ssh/id_ecdsa <<<y >/dev/null 2>&1" -s /bin/bash vagrant)
-
-#Copy public keys for clients
-echo vagrant | $(su -c "ssh-keyscan 192.168.0.134 >>.ssh/known_hosts" -s /bin/bash vagrant)
-echo vagrant | $(su -c "ssh-keyscan 192.168.0.135 >>.ssh/known_hosts" -s /bin/bash vagrant)
-echo vagrant | $(su -c "sshpass -p "vagrant" ssh-copy-id -i /home/vagrant/.ssh/id_ecdsa.pub vagrant@192.168.0.134" -s /bin/bash vagrant)
-echo vagrant | $(su -c "sshpass -p "vagrant" ssh-copy-id -i /home/vagrant/.ssh/id_ecdsa.pub vagrant@192.168.0.135" -s /bin/bash vagrant)
