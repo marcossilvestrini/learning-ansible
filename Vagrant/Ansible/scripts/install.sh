@@ -45,7 +45,7 @@ chown -R vagrant:vagrant ansible/
 #Ansible Configs
 mkdir -p /etc/ansible/roles
 mkdir -p /usr/share/ansible/plugins/modules
-echo localhost >/etc/ansible/hosts
+echo 192.168.0.1333 >/etc/ansible/hosts
 touch /var/log/ansible.log
 chmod 447 /var/log/ansible.log
 mv ansible/Configs/ansible_custom.cfg /etc/ansible/ansible.cfg
