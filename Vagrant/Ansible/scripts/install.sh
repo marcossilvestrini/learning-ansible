@@ -35,6 +35,7 @@ echo vagrant | $(su -c "sshpass -p "vagrant" ssh-copy-id -i /home/vagrant/.ssh/i
 #sudo apt install -y ansible
 apt install -y python3-pip
 pip3 install --no-cache-dir ansible
+pip3 install --no-cache-dir --ignore-installed --no-warn-script-location pywinrm
 
 #Clone Project Repository files
 rm -rf ansible/
