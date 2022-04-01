@@ -179,10 +179,14 @@ ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 192.168.0.136
 
 [win:vars]
-ansible_user=ansible
-ansible_ssh_private_key_file=~/.ssh/id_rsa
-ansible_python_interpreter=/usr/bin/python3
+ansible_user= vagrant
+ansible_password= vagrant
+ansible_connection= winrm
+ansible_port= 5986
+ansible_winrm_transport= basic
+ansible_winrm_server_cert_validation= ignore
 ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+ansible_python_interpreter=C:\Python310
 ```
 
 ## Ad-Hoc Commands
@@ -198,7 +202,6 @@ ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 -m=define module\
 -a=module args\
 -- help= helps
-
 
 ### Collect and Display infos of server
 

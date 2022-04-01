@@ -1,11 +1,16 @@
-[app]
-192.168.0.134
-
-[db]
-192.168.0.135
+[linux]
+app_linux ansible_ssh_host=192.168.0.134
+db_linux ansible_ssh_host=192.168.0.135
 
 [win]
-192.168.0.136
+app_win ansible_ssh_host=192.168.0.136
+
+[app]
+app_linux ansible_ssh_host=192.168.0.134
+app_win ansible_ssh_host=192.168.0.136
+
+[linux:vars]
+ansible_user=vagrant
 
 [win:vars]
 ansible_user= vagrant
@@ -14,9 +19,11 @@ ansible_connection= winrm
 ansible_port= 5986
 ansible_winrm_transport= basic
 ansible_winrm_server_cert_validation= ignore
-ansible_python_interpreter=C:\Python310
+ansible_python_interpreter= C:\Python310
+
+[app:vars]
+ansible_user= vagrant
 
 [servers:children]
-app
-db
+linux
 win
