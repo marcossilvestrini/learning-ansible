@@ -36,8 +36,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # HOSTNAME
     win2019_ansible.vm.hostname = "WIN2019-ANSIBLE"
+
     # NETWORK
-    win2019_ansible.vm.network "public_network" ,ip: "192.168.0.136"
+    win2019_ansible.vm.network "public_network" ,ip: "192.168.0.136",mode: "bridge",bridge: [
+    "ens32",
+    "Marvell AQtion 5Gbit Network Adapter"
+    ]
 
     # MOUNTS
     win2019_ansible.vm.synced_folder ".", "/vagrant", disabled: true

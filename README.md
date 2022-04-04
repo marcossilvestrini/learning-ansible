@@ -149,46 +149,6 @@ connect_timeout                 = 30
 
 ```
 
-## Setup Inventory file examples
-
-```sh
-[all]
-192.168.0.134
-192.168.0.135
-192.168.0.136
-
-[debian]
-192.168.0.134
-
-[debian:vars]
-ansible_user=ansible
-ansible_ssh_private_key_file=~/.ssh/id_rsa
-ansible_python_interpreter=/usr/bin/python3
-ansible_ssh_common_args='-o StrictHostKeyChecking=no'
-
-[ol8]
-192.168.0.135
-
-[ol8:vars]
-ansible_user=ansible
-ansible_ssh_private_key_file=~/.ssh/id_rsa
-ansible_python_interpreter=/usr/bin/python3
-ansible_ssh_common_args='-o StrictHostKeyChecking=no'
-
-[win]
-192.168.0.136
-
-[win:vars]
-ansible_user= vagrant
-ansible_password= vagrant
-ansible_connection= winrm
-ansible_port= 5986
-ansible_winrm_transport= basic
-ansible_winrm_server_cert_validation= ignore
-ansible_ssh_common_args='-o StrictHostKeyChecking=no'
-ansible_python_interpreter=C:\Python310
-```
-
 ## Ad-Hoc Commands
 
 ### Commom Options
@@ -212,13 +172,85 @@ ansible_python_interpreter=C:\Python310
 ```sh
 ansible -i provisioning/hosts all -m ping
 ansible -i provisioning/hosts web -m ping
-
 ```
 
 ### Check uptime
 
 `ansible protheus -m command -a "uptime"`
 
-## Check playbook syntax
+### Get infos about setup
 
-`ansible-playbook playbook.yml --syntax-check`
+```sh
+ansible protheus -m command -a "setup"
+ansible -i hosts linux -u vagrant -m setup -a 'filter=ansible_distribution'
+```
+
+## Working with Inventory
+
+```sh
+#Example
+
+[linux]
+app_linux ansible_ssh_host=192.168.0.134
+db_linux ansible_ssh_host=192.168.0.135
+
+[win]
+app_win ansible_ssh_host=192.168.0.136
+
+[app]
+app_linux ansible_ssh_host=192.168.0.134
+app_win ansible_ssh_host=192.168.0.136
+
+[linux:vars]
+ansible_user=vagrant
+
+[win:vars]
+ansible_user= vagrant
+ansible_password= vagrant
+ansible_connection= winrm
+ansible_port= 5986
+ansible_winrm_transport= basic
+ansible_winrm_server_cert_validation= ignore
+ansible_python_interpreter= C:\Python310
+
+[app:vars]
+ansible_user= vagrant
+
+[servers:children]
+linux
+win
+```
+
+## Roles
+
+### Example Default Structure Paths
+
+```sh
+playbook.yml
+roles/
+    common/
+        tasks/
+        handlers/
+        files/
+        templates/
+        vars/
+        defaults/
+        meta/
+```
+
+- tasks
+list of tasks to be performed in a role.
+- handlers
+are handlers/events triggered by a task.
+- files files
+used for deployment within a function.
+- templates
+templates to deploy within a role (allows the use of
+variable)
+- vars
+additional variables of a role.
+- defaults
+default variables of a function. Maximum priority.
+- meta
+handles dependencies of one role by another role – first
+path analized by role.
