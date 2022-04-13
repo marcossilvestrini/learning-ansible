@@ -14,7 +14,10 @@ powershell.exe -ExecutionPolicy ByPass -File $file
 -------------------------------------------------------------------------------- -
 # Enable Certificate authentication (targets windows)
 Set-Item -Path WSMan:\localhost\Service\Auth\Certificate -Value $true
-# Alter Method Auth
+-------------------------------------------------------------------------------- -
+
+-------------------------------------------------------------------------------- -
+# Set reg ClientAuthTrustMode
 Set-ItemProperty -Path registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL -Name ClientAuthTrustMode -Type DWord -Value 2
 -------------------------------------------------------------------------------- -
 

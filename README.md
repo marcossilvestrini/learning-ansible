@@ -32,6 +32,7 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 [Ansible Configuration Settings](https://docs.ansible.com/ansible/latest/reference_appendices/config.html)\
 [Ansible Configuration Examples](https://github.com/ansible/ansible/blob/devel/examples/ansible.cfg)\
 [Best Practices](https://docs.ansible.com/ansible/2.9/user_guide/playbooks_best_practices.html#id9)
+[Course Udemy](https://www.udemy.com/course/ansible-para-sysadmin/learn)
 
 ## Ansible Architeture
 
@@ -254,3 +255,7 @@ default variables of a function. Maximum priority.
 - meta
 handles dependencies of one role by another role – first
 path analized by role.
+
+## AWX
+
+### Install
