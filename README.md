@@ -32,6 +32,9 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 [Ansible Configuration Settings](https://docs.ansible.com/ansible/latest/reference_appendices/config.html)\
 [Ansible Configuration Examples](https://github.com/ansible/ansible/blob/devel/examples/ansible.cfg)\
 [Best Practices](https://docs.ansible.com/ansible/2.9/user_guide/playbooks_best_practices.html#id9)
+[Operator Framework](https://operatorframework.io/)
+[Operator Hub](https://operatorhub.io/)
+[AWX Operator](https://github.com/ansible/awx-operator)
 [Course Udemy](https://www.udemy.com/course/ansible-para-sysadmin/learn)
 
 ## Ansible Architeture
@@ -258,4 +261,23 @@ path analized by role.
 
 ## AWX
 
-### Install
+### Install AWX (Using K3S)
+
+#### Requirements AWX
+
+>RAM: >=6GB
+CPU: >= 2 Cores
+Storage: >= 20GB
+
+#### Requirements K3S
+
+>RAM: >=512MB
+CPU: >= 1 Cores
+Storage: >= SSD,Unique disk with mount point at /var/lib/rancher
+
+#### Install
+
+```sh
+url -sfL https://get.k3s.io | sh -
+sudo systemctl enable k3s
+```
