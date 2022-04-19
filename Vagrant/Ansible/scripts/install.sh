@@ -12,7 +12,11 @@ cp -f configs/profile /etc
 rm .bashrc
 cp -f configs/.bashrc .
 
+#Set hosts
+echo "192.168.0.133 debian-ansible-master" >>/etc/hosts
+
 # Install Packages
+apt install -y curl
 apt install -y sshpass
 apt install -y vim
 apt install -y tree
@@ -34,8 +38,8 @@ echo vagrant | $(su -c "sshpass -p "vagrant" ssh-copy-id -i /home/vagrant/.ssh/i
 # Install Ansible
 #sudo apt install -y ansible
 apt install -y python3-pip
-pip3 install --no-cache-dir ansible
-pip3 install --no-cache-dir --ignore-installed --no-warn-script-location pywinrm
+pip3 install --no-cache-dir --user ansible
+pip3 install --no-cache-dir --user --ignore-installed --no-warn-script-location pywinrm
 
 #Clone Project Repository files
 rm -rf ansible/
@@ -50,5 +54,22 @@ echo 192.168.0.1333 >/etc/ansible/hosts
 touch /var/log/ansible.log
 chmod 447 /var/log/ansible.log
 mv ansible/Configs/ansible_custom.cfg /etc/ansible/ansible.cfg
-rm -rf ansible/Configs/ ansible/Vagrant ansible/diagrams ansible/scripts ansible/Helps LICENSE README.md
-rm ansible/LICENSE ansible/README.md
+rm -rf ansible/Configs \
+    ansible/Vagrant \
+    ansible/diagrams \
+    ansible/scripts \
+    ansible/Helps \
+    ansible/docs \
+    ansible/LICENSE \
+    ansible/README.md
+
+#Install and Configure AWX Operator
+curl -sfL https://get.k3s.io | sh -
+systemctl enable k3s
+kubectl apply -f configs/secrets.yml
+git clone https://github.com/ansible/awx-operator.git
+cd awx-operator
+git checkout 0.20.0
+export NAMESPACE=default
+make deploy
+kubectl apply -f configs/awx.yml

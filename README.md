@@ -31,10 +31,10 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 [Ansible Tutorial](https://www.javatpoint.com/ansible)\
 [Ansible Configuration Settings](https://docs.ansible.com/ansible/latest/reference_appendices/config.html)\
 [Ansible Configuration Examples](https://github.com/ansible/ansible/blob/devel/examples/ansible.cfg)\
-[Best Practices](https://docs.ansible.com/ansible/2.9/user_guide/playbooks_best_practices.html#id9)
-[Operator Framework](https://operatorframework.io/)
-[Operator Hub](https://operatorhub.io/)
-[AWX Operator](https://github.com/ansible/awx-operator)
+[Best Practices](https://docs.ansible.com/ansible/2.9/user_guide/playbooks_best_practices.html#id9)\
+[Operator Framework](https://operatorframework.io/)\
+[Operator Hub](https://operatorhub.io/)\
+[AWX Operator](https://github.com/ansible/awx-operator)\
 [Course Udemy](https://www.udemy.com/course/ansible-para-sysadmin/learn)
 
 ## Ansible Architeture
@@ -261,7 +261,13 @@ path analized by role.
 
 ## AWX
 
-### Install AWX (Using K3S)
+### Architecture of awx
+
+![image](https://user-images.githubusercontent.com/62715900/163888547-9c83681a-c541-4399-98db-d0b9e5f64e54.png)
+
+![image](https://user-images.githubusercontent.com/62715900/163888299-fd41d7bd-b267-482c-a1d2-d5966bfd3ac7.png)
+
+### Install AWX (Using K3S, root user)
 
 #### Requirements AWX
 
@@ -275,9 +281,93 @@ Storage: >= 20GB
 CPU: >= 1 Cores
 Storage: >= SSD,Unique disk with mount point at /var/lib/rancher
 
-#### Install
+#### Install k3s
 
 ```sh
-url -sfL https://get.k3s.io | sh -
-sudo systemctl enable k3s
+curl -sfL https://get.k3s.io | sh -
+systemctl enable k3s
+```
+
+#### Set secrets (optional)
+
+secrets.yml
+
+```yaml
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: awx-admin-password
+  namespace: default
+stringData:
+  password: "vagrant"
+...
+
+```
+
+#### Deploy AWX Operator pod
+
+```sh
+#Apply secrets
+kubectl apply -f secrets.yml
+```
+
+```sh
+#clone projetc
+git clone https://github.com/ansible/awx-operator.git
+cd awx-operator
+
+#set latest version
+git checkout 0.20.0
+
+#define namespace
+export NAMESPACE=default
+
+#deploy pod
+make deploy
+```
+
+awx.yml
+
+```yaml
+---
+apiVersion: awx.ansible.com/v1beta1
+kind: AWX
+metadata:
+  name: awx
+spec:
+  service_type: NodePort
+  ingress_type: Ingress
+  hostname: debian-ansible-master.local
+...
+
+```
+
+```sh
+#Apply secrets
+kubectl apply -f awx.yml
+```
+
+#### Some Important Commands
+
+```sh
+#So we don't have to keep repeating -n awx, let's set the current namespace for kubectl:
+#kubectl config set-context --current --namespace=awx
+
+#Get secrets
+kubectl get secrets
+
+#Decrypt secret
+kubectl get secret awx-admin-password -o jsonpath="{.data.password}"| base64 --decode
+
+#list pod
+kubectl get pods
+
+#inspect pods
+kubectl get events -w
+
+#list services
+kubectl get services
 ```

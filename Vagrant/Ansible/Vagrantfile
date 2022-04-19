@@ -38,7 +38,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       vb.linked_clone = true
       vb.name = APP_NAME
       vb.memory = 6144
-      vb.cpus = 2
+      vb.cpus = 4
     end
 
     # PROVISION
