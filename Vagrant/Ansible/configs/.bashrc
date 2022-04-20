@@ -112,5 +112,17 @@ if ! shopt -oq posix; then
     fi
 fi
 
+#Set Timezone
 TZ='America/Sao_Paulo'
 export TZ
+
+#Set K3S
+if [ ! -d ~/.kube ]; then
+    mkdir ~/.kube
+
+fi
+
+sudo cp /etc/rancher/k3s/k3s.yaml /home/vagrant/.kube/config &&
+    sudo chown vagrant /home/vagrant/.kube/config &&
+    chmod 600 /home/vagrant/.kube/config &&
+    export KUBECONFIG=~/.kube/config
