@@ -126,3 +126,6 @@ sudo cp /etc/rancher/k3s/k3s.yaml /home/vagrant/.kube/config &&
     sudo chown vagrant /home/vagrant/.kube/config &&
     chmod 600 /home/vagrant/.kube/config &&
     export KUBECONFIG=~/.kube/config
+
+#Up Kubernets proxy for dashboard
+kubectl proxy &

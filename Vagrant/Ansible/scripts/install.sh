@@ -22,6 +22,12 @@ apt install -y vim
 apt install -y tree
 apt install -y net-tools
 apt install -y git
+apt install -y firefox-esr
+
+#Install X11 Server
+apt install xserver-xorg -y
+Xorg -configure
+mv /root/xorg.conf.new /etc/X11/xorg.conf
 
 # Set ssh
 cp -f configs/01-sshd-custom.conf /etc/ssh/sshd_config.d
@@ -74,3 +80,8 @@ export NAMESPACE=default
 make deploy
 kubectl apply -f /home/vagrant/configs/awx.yml
 kubectl apply -f /home/vagrant/configs/ingress.yml
+
+#Install Kubernets Dashboard
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.5.0/aio/deploy/recommended.yaml
+kubectl apply -f /home/vagrant/configs/kub-dash-user.yml
+kubectl apply -f /home/vagrant/configs/kub-dash-cluster-role-binding.yml
