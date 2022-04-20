@@ -267,18 +267,38 @@ path analized by role.
 
 ![image](https://user-images.githubusercontent.com/62715900/163888299-fd41d7bd-b267-482c-a1d2-d5966bfd3ac7.png)
 
-### Install AWX (Using K3S, root user)
+#### awx_web
+
+The name delivers what this guy does, he's the one who provides the web interface and does all the intermediary between the awx_task and the user. As stated earlier, it is written in Python and uses the DJango framework
+
+#### awx_task
+
+As its name implies, this is the guy who performs all AWX tasks. Written in Python, it makes use of Ansible (obviously) to execute all the tasks that are scheduled and those that are triggered by launch
+
+#### awx_rabbitmq
+
+RabbitMQ is a messaging service developed in Erlang, implemented to support messages in a protocol called Advanced Message Queuing Protocol (AMQP). In the AWX architecture, it is used to exchange messages between awx_web and awx_tasks, allowing the decoupling between these two services
+
+#### awx_memcached
+
+This service is used to store the key value (KV) that AWX uses to store some information and perform “sticker exchange” between awx_tasks and awx_web
+
+#### awx_postgres
+
+This is the database used by AWX to store all the information created by the web interface. You can either use an existing database or upload a container with the database (which is the default in the installation).
+
+### Install AWX (Using K3S)
 
 #### Requirements AWX
 
 >RAM: >=6GB
-CPU: >= 2 Cores
-Storage: >= 20GB
+CPU: >= 2 Cores\
+Storage: >= 20GB\
 
 #### Requirements K3S
 
 >RAM: >=512MB
-CPU: >= 1 Cores
+CPU: >= 1 Cores\
 Storage: >= SSD,Unique disk with mount point at /var/lib/rancher
 
 #### Install k3s
@@ -290,7 +310,7 @@ systemctl enable k3s
 
 #### Set secrets (optional)
 
-secrets.yml
+`secrets.yml`
 
 ```yaml
 
@@ -307,12 +327,12 @@ stringData:
 
 ```
 
-#### Deploy AWX Operator pod
-
 ```sh
 #Apply secrets
 kubectl apply -f secrets.yml
 ```
+
+#### Deploy AWX Operator
 
 ```sh
 #clone projetc
@@ -325,11 +345,12 @@ git checkout 0.20.0
 #define namespace
 export NAMESPACE=default
 
-#deploy pod
+#compile project
 make deploy
 ```
 
-awx.yml
+
+`awx.yml`
 
 ```yaml
 ---
@@ -346,9 +367,52 @@ spec:
 ```
 
 ```sh
-#Apply secrets
+#deploy pods
 kubectl apply -f awx.yml
 ```
+
+`ingress.yml`
+
+```yaml
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: awx-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  tls:
+  - hosts:
+    - debian-ansible-master
+  rules:
+    - host: debian-ansible-master
+      http:
+        paths:
+          - backend:
+              service:
+                name: awx-service
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix
+
+...
+
+```
+
+```sh
+#apply ingress
+kubectl apply -f ingress.yml
+```
+
+#### Access AWX Web Gui
+
+>URL: <http://debian-ansible-master>\
+User: admin
+Password: vagrant
 
 #### Some Important Commands
 
@@ -370,4 +434,7 @@ kubectl get events -w
 
 #list services
 kubectl get services
+
+#list ingress
+kubectl get ingress
 ```

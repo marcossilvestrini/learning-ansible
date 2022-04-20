@@ -63,13 +63,14 @@ rm -rf ansible/Configs \
     ansible/LICENSE \
     ansible/README.md
 
-#Install and Configure AWX Operator
+#Install and Configure AWX Operator(with k3s)
 curl -sfL https://get.k3s.io | sh -
 systemctl enable k3s
-kubectl apply -f configs/secrets.yml
+kubectl apply -f /home/vagrant/configs/secrets.yml
 git clone https://github.com/ansible/awx-operator.git
 cd awx-operator
 git checkout 0.20.0
 export NAMESPACE=default
 make deploy
-kubectl apply -f configs/awx.yml
+kubectl apply -f /home/vagrant/configs/awx.yml
+kubectl apply -f /home/vagrant/configs/ingress.yml
