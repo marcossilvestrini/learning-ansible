@@ -32,6 +32,9 @@ mv /root/xorg.conf.new /etc/X11/xorg.conf
 # Set ssh
 cp -f configs/01-sshd-custom.conf /etc/ssh/sshd_config.d
 cat security/id_ecdsa.pub >>.ssh/authorized_keys
+cp security/cert* .ssh/
+chmod 600 cert_key.pem
+chmod 644 cert.pem
 echo vagrant | $(su -c "ssh-keygen -q -t ecdsa -b 521 -N '' -f .ssh/id_ecdsa <<<y >/dev/null 2>&1" -s /bin/bash vagrant)
 systemctl restart sshd
 

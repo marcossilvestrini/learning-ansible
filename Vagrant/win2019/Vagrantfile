@@ -46,6 +46,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # MOUNTS
     win2019_ansible.vm.synced_folder ".", "/vagrant", disabled: true
     win2019_ansible.vm.synced_folder "./scripts", "/scripts"
+    win2019_ansible.vm.synced_folder "./security", "/security"
 
     # PROVIDER
     win2019_ansible.vm.provider "virtualbox" do |vb|

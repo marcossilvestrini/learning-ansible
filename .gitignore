@@ -6,6 +6,7 @@
 **/id_ecdsa*
 **/authorized_keys
 **/*.pub
+**/*.pem
 
 # Vscodee files
 **/.vscode

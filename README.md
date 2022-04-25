@@ -259,6 +259,60 @@ default variables of a function. Maximum priority.
 handles dependencies of one role by another role – first
 path analized by role.
 
+### Variables
+
+Variable precedence
+<https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html>
+
+Ansible does apply variable precedence, and you might have a use for it.\
+Here is the order of precedence from least to greatest (the last listed variables override all other variables):
+
+1. command line values (for example, -u my_user, these are not variables)
+2. role defaults (defined in role/defaults/main.yml)
+3. inventory file or script group vars
+4. inventory group_vars/all
+5. playbook group_vars/all
+6. inventory group_vars/*
+7. playbook group_vars/*
+8. inventory file or script host vars
+9. inventory host_vars/*
+10. playbook host_vars/*
+11. host facts / cached set_facts
+12. play vars
+13. play vars_prompt
+14. play vars_files
+15. role vars (defined in role/vars/main.yml)
+16. block vars (only for tasks in block)
+17. task vars (only for the task)
+18. include_vars
+19. set_facts / registered vars
+20. role (and include_role) params
+21. include params
+22. extra vars (for example, -e "user=my_user")(always win precedence)
+
+### Inventory vars
+
+```yml
+[linux]
+debian ansible_host=192.168.0.134
+ol8 ansible_host=192.168.0.135
+
+[win]
+win2019 ansible_host=192.168.0.136
+
+[linux:vars]
+ansible_user=vagrant
+
+[win:vars]
+ansible_connection=winrm
+ansible_winrm_scheme=https
+ansible_port=5986
+ansible_winrm_transport= certificate
+ansible_winrm_cert_pem= /home/vagrant/.ssh/cert.pem
+ansible_winrm_cert_key_pem=/home/vagrant/.ssh/cert_key.pem
+ansible_winrm_server_cert_validation=ignore
+```
+
 ## AWX
 
 ### Architecture of awx
