@@ -40,3 +40,20 @@ $store = New-Object -TypeName System.Security.Cryptography.X509Certificates.X509
 $store.Open("MaxAllowed")
 $store.Add($cert)
 $store.Close()
+
+# Mapping a Certificate to an Account
+$username = "vagrant"
+$password = ConvertTo-SecureString -String "vagrant" -AsPlainText -Force
+$credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $username, $password
+
+# This is the issuer thumbprint which in the case of a self generated cert
+# is the public key thumbprint, additional logic may be required for other
+# scenarios
+$thumbprint = (Get-ChildItem -Path cert:\LocalMachine\root | Where-Object { $_.Subject -eq "CN=$username" }).Thumbprint
+
+New-Item -Path WSMan:\localhost\ClientCertificate `
+    -Subject "$username@localhost" `
+    -URI * `
+    -Issuer $thumbprint `
+    -Credential $credential `
+    -Force

@@ -33,8 +33,10 @@ mv /root/xorg.conf.new /etc/X11/xorg.conf
 cp -f configs/01-sshd-custom.conf /etc/ssh/sshd_config.d
 cat security/id_ecdsa.pub >>.ssh/authorized_keys
 cp security/cert* .ssh/
-chmod 600 cert_key.pem
-chmod 644 cert.pem
+chmod 600 .ssh/cert_key.pem
+chmod 644 .ssh/cert.pem
+chown vagrant:vagrant .ssh/cert_key.pem
+chown vagrant:vagrant .ssh/cert.pem
 echo vagrant | $(su -c "ssh-keygen -q -t ecdsa -b 521 -N '' -f .ssh/id_ecdsa <<<y >/dev/null 2>&1" -s /bin/bash vagrant)
 systemctl restart sshd
 
@@ -47,8 +49,8 @@ echo vagrant | $(su -c "sshpass -p "vagrant" ssh-copy-id -i /home/vagrant/.ssh/i
 # Install Ansible
 #sudo apt install -y ansible
 apt install -y python3-pip
-pip3 install --no-cache-dir --user ansible
-pip3 install --no-cache-dir --user --ignore-installed --no-warn-script-location pywinrm
+pip3 install --no-cache-dir ansible
+pip3 install --no-cache-dir --ignore-installed --no-warn-script-location pywinrm
 
 #Clone Project Repository files
 rm -rf ansible/
