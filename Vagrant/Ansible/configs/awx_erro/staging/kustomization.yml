@@ -3,9 +3,9 @@ kind: Kustomization
 resources:
   # Find the latest tag here: https://github.com/ansible/awx-operator/releases
   - github.com/ansible/awx-operator/config/default?ref=0.20.1
-  - secrets.yml
-  - awx.yml
-  - ingress.yml
+  #- staging/secrets.yml
+  - staging/awx.yml
+  - staging/ingress.yml
 
 # Set the image tags to match the git version from above
 images:

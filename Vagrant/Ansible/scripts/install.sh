@@ -1,9 +1,9 @@
 #!/bin/bash
 
-cd /home/vagrant || exit
+cd /home/vagrant
 
 #Set password account
-usermod --password "$(echo vagrant | openssl passwd -1 -stdin)" vagrant
+usermod --password $(echo vagrant | openssl passwd -1 -stdin) vagrant
 
 #Set profile in /etc/profile
 cp -f configs/profile /etc
@@ -16,6 +16,7 @@ cp -f configs/.bashrc .
 echo "192.168.0.133 debian-ansible-master" >>/etc/hosts
 
 # Install Packages
+# apt update -y
 apt install -y curl
 apt install -y sshpass
 apt install -y vim
@@ -40,11 +41,11 @@ chown vagrant:vagrant .ssh/cert.pem
 echo vagrant | $(su -c "ssh-keygen -q -t ecdsa -b 521 -N '' -f .ssh/id_ecdsa <<<y >/dev/null 2>&1" -s /bin/bash vagrant)
 systemctl restart sshd
 
-# #Copy public keys for clients
-# echo vagrant | "$(su -c "ssh-keyscan 192.168.0.134 >>.ssh/known_hosts" -s /bin/bash vagrant)"
-# echo vagrant | "$(su -c "ssh-keyscan 192.168.0.135 >>.ssh/known_hosts" -s /bin/bash vagrant)"
-# echo vagrant | "$(su -c "sshpass -p "vagrant" ssh-copy-id -i /home/vagrant/.ssh/id_ecdsa.pub vagrant@192.168.0.134" -s /bin/bash vagrant)"
-# echo vagrant | "$(su -c "sshpass -p "vagrant" ssh-copy-id -i /home/vagrant/.ssh/id_ecdsa.pub vagrant@192.168.0.135" -s /bin/bash vagrant)"
+#Copy public keys for clients
+# echo vagrant | $(su -c "ssh-keyscan 192.168.0.134 >>.ssh/known_hosts" -s /bin/bash vagrant)
+# echo vagrant | $(su -c "ssh-keyscan 192.168.0.135 >>.ssh/known_hosts" -s /bin/bash vagrant)
+# echo vagrant | $(su -c "sshpass -p "vagrant" ssh-copy-id -i /home/vagrant/.ssh/id_ecdsa.pub vagrant@192.168.0.134" -s /bin/bash vagrant)
+# echo vagrant | $(su -c "sshpass -p "vagrant" ssh-copy-id -i /home/vagrant/.ssh/id_ecdsa.pub vagrant@192.168.0.135" -s /bin/bash vagrant)
 
 # # Install Ansible
 # #sudo apt install -y ansible
@@ -52,7 +53,7 @@ systemctl restart sshd
 # pip3 install --no-cache-dir ansible
 # pip3 install --no-cache-dir --ignore-installed --no-warn-script-location pywinrm
 
-# #Clone Project Repository files
+#Clone Project Repository files
 # rm -rf ansible/
 # git clone https://github.com/marcossilvestrini/learning-ansible.git
 # mv learning-ansible ansible
@@ -66,28 +67,27 @@ systemctl restart sshd
 # chmod 447 /var/log/ansible.log
 # mv ansible/Configs/ansible_custom.cfg /etc/ansible/ansible.cfg
 # rm -rf ansible/Configs \
-# ansible/Vagrant \
-# ansible/diagrams \
-# ansible/scripts \
-# ansible/Helps \
-# ansible/docs \
-# ansible/LICENSE \
-# ansible/README.md
+#     ansible/Vagrant \
+#     ansible/diagrams \
+#     ansible/scripts \
+#     ansible/Helps \
+#     ansible/docs \
+#     ansible/LICENSE \
+#     ansible/README.md
 
-#Install k3s
+#Install and Configure AWX Operator(with k3s)
 curl -sfL https://get.k3s.io | sh -
 systemctl enable k3s
-
-#Install and Configure AWX Operator
+kubectl apply -f /home/vagrant/configs/awx/staging/secrets.yml
 git clone https://github.com/ansible/awx-operator.git
-cp -R configs/awx/staging/ awx-operator
-cp configs/awx/staging/kustomization.yml awx-operator
-cd awx-operator || exit
-rm -rf .git .github
-curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
-./kustomize build . | kubectl apply -f -
+cd awx-operator
+git checkout 0.20.0
+export NAMESPACE=default
+make deploy
+kubectl apply -f /home/vagrant/configs/awx/staging/awx.yml
+kubectl apply -f /home/vagrant/configs/awx/staging/ingress.yml
 
-#Install Kubernets Dashboard
+# #Install Kubernets Dashboard
 # kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.5.0/aio/deploy/recommended.yaml
-# kubectl apply -f /home/vagrant/configs/awx/staging/kub-dash-user.yml
-# kubectl apply -f /home/vagrant/configs/awx/staging/kub-dash-cluster-role-binding.yml
+# kubectl apply -f /home/vagrant/configs/kub-dash-user.yml
+# kubectl apply -f /home/vagrant/configs/kub-dash-cluster-role-binding.yml
