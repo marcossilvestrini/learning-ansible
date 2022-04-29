@@ -19,13 +19,13 @@ EOL
 #generate and key
 export OPENSSL_CONF=openssl.conf
 openssl req -x509 \
-    -nodes -days 3650 \
-    -newkey rsa:2048 \
-    -out cert.pem \
-    -outform PEM \
-    -keyout cert_key.pem \
-    -subj "/CN=$USERNAME" \
-    -extensions v3_req_client
+-nodes -days 3650 \
+-newkey rsa:2048 \
+-out cert.pem \
+-outform PEM \
+-keyout cert_key.pem \
+-subj "/CN=$USERNAME" \
+-extensions v3_req_client
 
 #remove openssl.conf
 rm openssl.conf

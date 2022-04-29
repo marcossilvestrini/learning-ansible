@@ -1,0 +1,6 @@
+---
+- hosts: linux
+  become: yes
+  roles:
+    - common
+    - set-motd

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /home/vagrant
+cd /home/vagrant || exit
 
 #Set password account
 usermod --password $(echo vagrant | openssl passwd -1 -stdin) vagrant
@@ -66,13 +66,13 @@ touch /var/log/ansible.log
 chmod 447 /var/log/ansible.log
 mv ansible/Configs/ansible_custom.cfg /etc/ansible/ansible.cfg
 rm -rf ansible/Configs \
-    ansible/Vagrant \
-    ansible/diagrams \
-    ansible/scripts \
-    ansible/Helps \
-    ansible/docs \
-    ansible/LICENSE \
-    ansible/README.md
+ansible/Vagrant \
+ansible/diagrams \
+ansible/scripts \
+ansible/Helps \
+ansible/docs \
+ansible/LICENSE \
+ansible/README.md
 
 #Install and Configure AWX Operator(with k3s)
 curl -sfL https://get.k3s.io | sh -

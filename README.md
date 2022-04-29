@@ -313,6 +313,56 @@ ansible_winrm_cert_key_pem=/home/vagrant/.ssh/cert_key.pem
 ansible_winrm_server_cert_validation=ignore
 ```
 
+### Vars in host_vars
+
+host_vars/debian.yml
+
+```yml
+
+ansible_user: foo
+
+```
+
+### Vars in group_vars
+
+group_vars/win
+
+```yml
+ansible_connection: winrm
+ansible_winrm_scheme: https
+ansible_port: 5986
+ansible_winrm_transport: certificate
+ansible_winrm_cert_pem: /home/vagrant/.ssh/cert.pem
+ansible_winrm_cert_key_pem: /home/vagrant/.ssh/cert_key.pem
+ansible_winrm_server_cert_validation: ignore
+```
+
+### Vars in Tasks
+
+roles/common/default/main.yml
+
+```yml
+
+---
+common_packages:
+  - vim
+  - gcc
+  - tcdump
+
+```
+
+roles/common/tasks/main.yml
+
+```yml
+---
+
+- name: Install Packages
+  apt: name={{ item }} state=latest
+  loop:
+    - "{{ common_packages }}"
+
+```
+
 ## AWX
 
 ### Architecture of awx
@@ -476,6 +526,7 @@ Password: vagrant
 
 #Get secrets
 kubectl get secrets
+
 
 #Decrypt secret
 kubectl get secret awx-admin-password -o jsonpath="{.data.password}"| base64 --decode
