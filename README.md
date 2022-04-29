@@ -453,7 +453,6 @@ export NAMESPACE=default
 make deploy
 ```
 
-
 `awx.yml`
 
 ```yaml

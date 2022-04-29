@@ -37,8 +37,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     debian_ansible_master.vm.provider "virtualbox" do |vb|
       vb.linked_clone = true
       vb.name = APP_NAME
-      vb.memory = 6144
-      vb.cpus = 4
+      vb.memory = 13000
+      vb.cpus = 6
     end
 
     # PROVISION
