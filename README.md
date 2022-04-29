@@ -526,7 +526,6 @@ Password: vagrant
 #Get secrets
 kubectl get secrets
 
-
 #Decrypt secret
 kubectl get secret awx-admin-password -o jsonpath="{.data.password}"| base64 --decode
 
@@ -541,6 +540,7 @@ kubectl get services
 
 #list ingress
 kubectl get ingress
+
 
 #Access Kubernets Dashboard
 ##Get token

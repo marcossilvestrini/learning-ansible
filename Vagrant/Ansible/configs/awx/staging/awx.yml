@@ -4,6 +4,7 @@ apiVersion: awx.ansible.com/v1beta1
 kind: AWX
 metadata:
   name: awx
+  namespace: awx-staging
 spec:
   service_type: NodePort
   ingress_type: Ingress
