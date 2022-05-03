@@ -27,6 +27,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     "ens32",
     "Marvell AQtion 5Gbit Network Adapter"
     ]
+    debian_ansible.vm.network "private_network" ,ip: "192.168.79.134"
 
     # MOUNTS
     debian_ansible.vm.synced_folder ".", "/vagrant", disabled: true

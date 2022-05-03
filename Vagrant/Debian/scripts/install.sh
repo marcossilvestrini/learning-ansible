@@ -12,6 +12,13 @@ cp -f configs/profile /etc
 rm .bashrc
 cp -f configs/.bashrc .
 
+#Set hosts
+{
+    echo "192.168.79.133 debian-ansible-master"
+    echo "192.168.79.134 debian-ansible"
+    echo "192.168.79.135 ol8-ansible"
+} >> /etc/hosts
+
 # Install Packages
 apt install -y vim
 

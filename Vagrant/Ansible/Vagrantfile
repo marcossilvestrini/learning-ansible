@@ -28,6 +28,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     "Marvell AQtion 5Gbit Network Adapter"
     ]
 
+    debian_ansible_master.vm.network "private_network" ,ip: "192.168.79.133"
+
     # MOUNTS
     debian_ansible_master.vm.synced_folder ".", "/vagrant", disabled: true
     debian_ansible_master.vm.synced_folder "./security", "/home/vagrant/security"

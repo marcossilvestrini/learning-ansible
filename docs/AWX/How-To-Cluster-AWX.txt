@@ -1,0 +1,78 @@
+﻿References: https://computingforgeeks.com/how-to-deploy-lightweight-kubernetes-cluster-with-k3s/
+
+--------------------------------------------------------
+Master node
+--------------------------------------------------------
+
+- Create a DNS for master and Nodes(or set /etc/hosts)
+    192.168.0.133 debian-ansible-master
+    192.168.0.134 debian-ansible
+
+- Create a local user awx
+    useradd -m awx
+    passwd awx
+
+- Generate SSh pair keys
+    ssh-keygen -q -t ecdsa -b 521
+
+- Set ssh in Nodes
+   ssh-copy-id -i /home/awx/.ssh/id_ecdsa.pub vagrant@192.168.0.134"
+
+- Disabled Swap memory
+    #First diasbale swap
+    sudo swapoff -a
+
+    #And then to disable swap on startup in /etc/fstab
+    sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+
+- Install K3S
+    curl -sfL https://get.k3s.io | sh -
+    systemctl enable k3s
+    kubeconfig:
+    cat /etc/rancher/k3s/k3s.yaml
+--------------------------------------------------------
+
+--------------------------------------------------------
+Work Nodes
+-------------------------------------------------------
+
+- Create a DNS for master and Nodes(or set /etc/hosts)
+    192.168.0.133 debian-ansible-master
+    192.168.0.134 debian-ansible
+
+- Create a local user awx
+    useradd -m awx
+    passwd awx
+
+- Generate SSh pair keys
+    ssh-keygen -q -t ecdsa -b 521
+
+- Disabled Swap memory
+    #First diasbale swap
+    sudo swapoff -a
+
+    #And then to disable swap on startup in /etc/fstab
+    sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+
+- Install K3s on Worker Nodes
+
+    To install on worker nodes we should pass K3S_URL along with
+    K3S_TOKEN or K3S_CLUSTER_SECRET environment variables.
+    The K3S_TOKEN is created at /var/lib/rancher/k3s/server/node-token on first node.
+
+    Get Token(Master Node)
+    sudo cat /var/lib/rancher/k3s/server/node-token
+
+    #So to install Kubernetes on worker nodes I’ll run:
+    k3s_url="https://debian-ansible-master:6443"
+    k3s_token="K1042e2f8e353b9409472c1e0cca8457abe184dc7be3f0805109e92c50c193ceb42::node:c83acbf89a7de7026d6f6928dc270028"
+    curl -sfL https://get.k3s.io | K3S_URL=${k3s_url} K3S_TOKEN=${k3s_token} sh -
+-------------------------------------------------------
+
+-------------------------------------------------------
+Check Cluster
+-------------------------------------------------------
+
+sudo kubectl config get-clusters
+sudo kubectl cluster-info
+sudo kubectl get  nodes
