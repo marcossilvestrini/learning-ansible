@@ -4,10 +4,10 @@ apiVersion: awx.ansible.com/v1beta1
 kind: AWX
 metadata:
   name: awx
-  namespace: awx-staging
+  namespace: awx-dev
 spec:
   service_type: NodePort
   ingress_type: Ingress
-  hostname: debian-ansible-master
+  hostname: awx-dev.tesp2.local
 
 ...

@@ -76,3 +76,32 @@ Check Cluster
 sudo kubectl config get-clusters
 sudo kubectl cluster-info
 sudo kubectl get  nodes
+-------------------------------------------------------
+
+
+
+-------------------------------------------------------
+Se usar vagrant, criar um private_network e setar ip statico.
+Exemplo 192.168.79.133
+
+-------------------------------------------------------
+Master
+-------------------------------------------------------
+export K3S_NODE_NAME=${HOSTNAME//_/-}
+export INSTALL_K3S_EXEC="--write-kubeconfig ~/.kube/config --write-kubeconfig-mode 666 --node-external-ip 192.168.79.133 --tls-san 192.168.79.133 --flannel-iface=eth2"
+curl -sfL https://get.k3s.io | sh -s -
+
+cat /var/lib/rancher/k3s/server/node-token
+-------------------------------------------------------
+
+Worker
+-------------------------------------------------------
+export K3S_NODE_NAME=${HOSTNAME//_/-}
+#k3s_url="https://debian-ansible-master:6443"
+k3s_url="https://192.168.79.133:6443"
+k3s_token="K105dc50e2e658999f3c49c3b759f419df9be561d40ecdd5532dd8cbae433aaaec7::server:e409076cc08eb05a6a6e4ca5f180d6d6"
+curl -sfL https://get.k3s.io | K3S_URL=${k3s_url} K3S_TOKEN=${k3s_token} sh -
+
+----------------------------------------------------------
+Master - Alter worker label
+kubectl label node debian-ansible node-role.kubernetes.io/worker=worker

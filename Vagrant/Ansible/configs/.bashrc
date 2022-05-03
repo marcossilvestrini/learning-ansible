@@ -4,8 +4,8 @@
 
 # If not running interactively, don't do anything
 case $- in
-    *i*) ;;
-    *) return ;;
+*i*) ;;
+*) return ;;
 esac
 
 # don't put duplicate lines or lines starting with space in the history.
@@ -37,7 +37,7 @@ fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-    xterm-color | *-256color) color_prompt=yes ;;
+xterm-color | *-256color) color_prompt=yes ;;
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
@@ -65,11 +65,11 @@ unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
-    xterm* | rxvt*)
-        PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+xterm* | rxvt*)
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
     ;;
-    *) ;;
-    
+*) ;;
+
 esac
 
 # enable color support of ls and also add handy aliases
@@ -78,7 +78,7 @@ if [ -x /usr/bin/dircolors ]; then
     alias ls='ls --color=auto'
     #alias dir='dir --color=auto'
     #alias vdir='vdir --color=auto'
-    
+
     #alias grep='grep --color=auto'
     #alias fgrep='fgrep --color=auto'
     #alias egrep='egrep --color=auto'
@@ -107,7 +107,7 @@ fi
 if ! shopt -oq posix; then
     if [ -f /usr/share/bash-completion/bash_completion ]; then
         . /usr/share/bash-completion/bash_completion
-        elif [ -f /etc/bash_completion ]; then
+    elif [ -f /etc/bash_completion ]; then
         . /etc/bash_completion
     fi
 fi
@@ -119,12 +119,9 @@ export TZ
 #Set K3S
 if [ ! -d ~/.kube ]; then
     mkdir ~/.kube
-    
+
 fi
 
-sudo cp /etc/rancher/k3s/k3s.yaml /home/vagrant/.kube/config &&
-sudo chown vagrant /home/vagrant/.kube/config &&
-chmod 600 /home/vagrant/.kube/config &&
 export KUBECONFIG=~/.kube/config
 
 #Up Kubernets proxy for dashboard

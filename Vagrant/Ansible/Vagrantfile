@@ -14,37 +14,37 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "debian/bullseye64"
 
   # VM ubuntu-server
-  config.vm.define "debian_ansible_master"  do |debian_ansible_master|
+  config.vm.define "debian_ansible_awx"  do |debian_ansible_awx|
 
     # VARIABLE HOSTNAME
-    APP_NAME= "debian-ansible-master"
+    APP_NAME= "debian-ansible-awx"
 
     # HOSTNAME
-    debian_ansible_master.vm.hostname = APP_NAME
+    debian_ansible_awx.vm.hostname = APP_NAME
 
     # NETWORK
-    debian_ansible_master.vm.network "public_network" ,ip: "192.168.0.133",mode: "bridge" ,bridge: [
+    debian_ansible_awx.vm.network "public_network" ,ip: "192.168.0.133",mode: "bridge" ,bridge: [
     "ens32",
     "Marvell AQtion 5Gbit Network Adapter"
     ]
 
-    debian_ansible_master.vm.network "private_network" ,ip: "192.168.79.133"
+    #debian_ansible_awx.vm.network "private_network" ,ip: "192.168.79.133"
 
     # MOUNTS
-    debian_ansible_master.vm.synced_folder ".", "/vagrant", disabled: true
-    debian_ansible_master.vm.synced_folder "./security", "/home/vagrant/security"
-    debian_ansible_master.vm.synced_folder "./configs", "/home/vagrant/configs"
+    debian_ansible_awx.vm.synced_folder ".", "/vagrant", disabled: true
+    debian_ansible_awx.vm.synced_folder "./security", "/home/vagrant/security"
+    debian_ansible_awx.vm.synced_folder "./configs", "/home/vagrant/configs"
 
     # PROVIDER
-    debian_ansible_master.vm.provider "virtualbox" do |vb|
+    debian_ansible_awx.vm.provider "virtualbox" do |vb|
       vb.linked_clone = true
       vb.name = APP_NAME
-      vb.memory = 13000
-      vb.cpus = 6
+      vb.memory = 8192
+      vb.cpus = 4
     end
 
     # PROVISION
-    debian_ansible_master.vm.provision "shell", path: "scripts/install.sh"
+    debian_ansible_awx.vm.provision "shell", path: "scripts/install.sh"
 
     # ANSIBLE PROVISIONING
     # ol8_lpic_ansible.vm.provision "ansible" do |ansible|

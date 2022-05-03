@@ -1,6 +1,6 @@
 kind: Namespace
 apiVersion: v1
 metadata:
-  name: awx-staging
+  name: awx-dev
   labels:
-    name: awx-staging
+    name: awx-dev
