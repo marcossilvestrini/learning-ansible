@@ -47,15 +47,15 @@ echo vagrant | $(su -c "ssh-keygen -q -t ecdsa -b 521 -N '' -f .ssh/id_ecdsa <<<
 systemctl restart sshd
 
 # Copy public keys for clients
-# echo vagrant | $(su -c "ssh-keyscan 192.168.0.134 >>.ssh/known_hosts" -s /bin/bash vagrant)
-# echo vagrant | $(su -c "ssh-keyscan 192.168.0.135 >>.ssh/known_hosts" -s /bin/bash vagrant)
-# echo vagrant | $(su -c "sshpass -p "vagrant" ssh-copy-id -i /home/vagrant/.ssh/id_ecdsa.pub vagrant@192.168.0.134" -s /bin/bash vagrant)
-#echo vagrant | $(su -c "sshpass -p "vagrant" ssh-copy-id -i /home/vagrant/.ssh/id_ecdsa.pub vagrant@192.168.0.135" -s /bin/bash vagrant)
+echo vagrant | $(su -c "ssh-keyscan 192.168.0.134 >>.ssh/known_hosts" -s /bin/bash vagrant)
+echo vagrant | $(su -c "ssh-keyscan 192.168.0.135 >>.ssh/known_hosts" -s /bin/bash vagrant)
+echo vagrant | $(su -c "sshpass -p "vagrant" ssh-copy-id -i /home/vagrant/.ssh/id_ecdsa.pub vagrant@192.168.0.134" -s /bin/bash vagrant)
+echo vagrant | $(su -c "sshpass -p "vagrant" ssh-copy-id -i /home/vagrant/.ssh/id_ecdsa.pub vagrant@192.168.0.135" -s /bin/bash vagrant)
 
-# Install Ansible
-apt install -y python3-pip
-pip3 install --no-cache-dir ansible
-pip3 install --no-cache-dir --ignore-installed --no-warn-script-location pywinrm
+# # Install Ansible
+# apt install -y python3-pip
+# pip3 install --no-cache-dir ansible
+# pip3 install --no-cache-dir --ignore-installed --no-warn-script-location pywinrm
 
 # # Clone Project Repository files
 # rm -rf ansible/
@@ -86,7 +86,7 @@ sudo swapoff -a
 sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 
 # Install K3S
-export INSTALL_K3S_CHANNEL=v1.22
+export INSTALL_K3S_CHANNEL=v1.21
 export K3S_NODE_NAME=${HOSTNAME//_/-}
 export INSTALL_K3S_EXEC="--write-kubeconfig /home/vagrant/.kube/config --write-kubeconfig-mode 666"
 
@@ -106,13 +106,13 @@ make deploy
 kubectl apply -f /home/vagrant/configs/awx/staging/awx.yml
 kubectl apply -f /home/vagrant/configs/awx/staging/ingress.yml
 
-# # #Copy token for workers
-# # cat /var/lib/rancher/k3s/server/node-token >/home/vagrant/k3s-token
-# # scp -i /home/vagrant/.ssh/id_ecdsa \
-# #     -o UserKnownHostsFile=/dev/null \
-# #     -o StrictHostKeyChecking=no \
-# #     /home/vagrant/k3s-token \
-# #     vagrant@192.168.0.134:/home/vagrant
+# #Copy token for workers
+# cat /var/lib/rancher/k3s/server/node-token >/home/vagrant/k3s-token
+# scp -i /home/vagrant/.ssh/id_ecdsa \
+#     -o UserKnownHostsFile=/dev/null \
+#     -o StrictHostKeyChecking=no \
+#     /home/vagrant/k3s-token \
+#     vagrant@192.168.0.134:/home/vagrant
 
 # #Install Kubernets Dashboard
 # kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.5.0/aio/deploy/recommended.yaml
