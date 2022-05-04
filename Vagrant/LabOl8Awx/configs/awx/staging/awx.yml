@@ -1,0 +1,13 @@
+---
+
+apiVersion: awx.ansible.com/v1beta1
+kind: AWX
+metadata:
+  name: awx
+  namespace: awx-dev
+spec:
+  service_type: NodePort
+  ingress_type: Ingress
+  hostname: awx-dev.tesp2.local
+
+...
