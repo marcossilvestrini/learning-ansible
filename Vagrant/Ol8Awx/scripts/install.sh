@@ -43,7 +43,7 @@ sudo swapoff -a
 sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 
 # Install K3S
-export INSTALL_K3S_CHANNEL=v1.21
+export INSTALL_K3S_CHANNEL=v1.22
 export K3S_NODE_NAME=${HOSTNAME//_/-}
 export INSTALL_K3S_EXEC="--write-kubeconfig /home/vagrant/.kube/config --write-kubeconfig-mode 666"
 

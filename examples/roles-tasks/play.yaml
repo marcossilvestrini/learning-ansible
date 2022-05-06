@@ -2,5 +2,6 @@
 - hosts: linux
   become: yes
   roles:
-    - common
-    - set-motd
+     - common
+     - sync-bkp
+     - set-motd

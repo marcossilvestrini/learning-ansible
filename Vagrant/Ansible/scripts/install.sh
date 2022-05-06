@@ -52,32 +52,32 @@ echo vagrant | $(su -c "ssh-keyscan 192.168.0.135 >>.ssh/known_hosts" -s /bin/ba
 echo vagrant | $(su -c "sshpass -p "vagrant" ssh-copy-id -i /home/vagrant/.ssh/id_ecdsa.pub vagrant@192.168.0.134" -s /bin/bash vagrant)
 echo vagrant | $(su -c "sshpass -p "vagrant" ssh-copy-id -i /home/vagrant/.ssh/id_ecdsa.pub vagrant@192.168.0.135" -s /bin/bash vagrant)
 
-# # Install Ansible
-# apt install -y python3-pip
-# pip3 install --no-cache-dir ansible
-# pip3 install --no-cache-dir --ignore-installed --no-warn-script-location pywinrm
+# Install Ansible
+apt install -y python3-pip
+pip3 install --no-cache-dir ansible
+pip3 install --no-cache-dir --ignore-installed --no-warn-script-location pywinrm
 
-# # Clone Project Repository files
-# rm -rf ansible/
-# git clone https://github.com/marcossilvestrini/learning-ansible.git
-# mv learning-ansible ansible
-# chown -R vagrant:vagrant ansible/
+# Clone Project Repository files
+rm -rf ansible/
+git clone https://github.com/marcossilvestrini/learning-ansible.git
+mv learning-ansible ansible
+chown -R vagrant:vagrant ansible/
 
-# # Ansible Configs
-# mkdir -p /etc/ansible/roles
-# mkdir -p /usr/share/ansible/plugins/modules
-# echo 192.168.0.1333 >/etc/ansible/hosts
-# touch /var/log/ansible.log
-# chmod 447 /var/log/ansible.log
-# mv ansible/Configs/ansible_custom.cfg /etc/ansible/ansible.cfg
-# rm -rf ansible/Configs \
-#     ansible/Vagrant \
-#     ansible/diagrams \
-#     ansible/scripts \
-#     ansible/Helps \
-#     ansible/docs \
-#     ansible/LICENSE \
-#     ansible/README.md
+# Ansible Configs
+mkdir -p /etc/ansible/roles
+mkdir -p /usr/share/ansible/plugins/modules
+echo 192.168.0.1333 >/etc/ansible/hosts
+touch /var/log/ansible.log
+chmod 447 /var/log/ansible.log
+mv ansible/Configs/ansible_custom.cfg /etc/ansible/ansible.cfg
+rm -rf ansible/Configs \
+    ansible/Vagrant \
+    ansible/diagrams \
+    ansible/scripts \
+    ansible/Helps \
+    ansible/docs \
+    ansible/LICENSE \
+    ansible/README.md
 
 # First diasbale swap
 sudo swapoff -a

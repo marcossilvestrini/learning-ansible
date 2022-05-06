@@ -2,4 +2,4 @@
 - name: Customizing Welcome Screen
   template:
     src: motd.j2
-    dest: /etc
+    dest: /etc/motd

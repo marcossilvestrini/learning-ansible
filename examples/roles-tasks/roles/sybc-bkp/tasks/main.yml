@@ -1,0 +1,18 @@
+---
+
+- name: Generate Backup
+  archive:
+    path: /home/vagrant/ansible/examples/roles-tasks/play.yaml
+    dest: /home/vagrant/ansible/examples/roles-tasks/roles/sync-bkp/files/backup.zip
+    format: zip
+    force_archive: true
+  delegate_to: 127.0.0.1
+
+
+- name: Sync Backup
+  copy:
+    src: backup.zip
+    dest: /home/vagrant/restore.zip
+    force: yes
+
+...

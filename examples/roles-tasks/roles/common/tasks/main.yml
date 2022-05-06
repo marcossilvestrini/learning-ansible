@@ -1,9 +1,18 @@
 ---
 
+- name: Update System
+  dnf:
+    name: '*'
+    state: latest
+    update_cache: yes
+
+
 - name: Install Packages
   package:
     name: "{{ item }}"
     state: latest
   loop:
     - "{{ common_packages }}"
+
+...
 
