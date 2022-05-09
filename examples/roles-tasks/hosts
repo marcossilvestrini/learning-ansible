@@ -4,3 +4,7 @@ ol8 ansible_host=192.168.0.135
 
 [win]
 win2019 ansible_host=192.168.0.136
+
+[servers:children]
+linux
+win

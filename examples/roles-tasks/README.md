@@ -14,6 +14,7 @@ File: examples/roles-tasks/roles/updates/tasks/main.yml
     update_cache: yes
     upgrade: yes
   when: ansible_facts['os_family'] == "Debian"
+  become: yes
 
 # Update RPM
 - name: Update System RPM (RedHat, OracleLinux,CentOS,Fedora)
@@ -22,6 +23,15 @@ File: examples/roles-tasks/roles/updates/tasks/main.yml
     state: latest
     security: yes
   when: ansible_facts['os_family'] == "RedHat"
+  become: yes
+
+#Update Windows
+- name: Update System Windows (Windows)
+  win_updates:
+    category_names:
+      - CriticalUpdates
+  when: ansible_facts['os_family'] == "Windows"
+
 
 ...
 

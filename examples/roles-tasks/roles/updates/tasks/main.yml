@@ -6,6 +6,7 @@
     update_cache: yes
     upgrade: yes
   when: ansible_facts['os_family'] == "Debian"
+  become: yes
 
 # Update RPM
 - name: Update System RPM (RedHat, OracleLinux,CentOS,Fedora)
@@ -14,10 +15,18 @@
     state: latest
     security: yes
   when: ansible_facts['os_family'] == "RedHat"
+  become: yes
+
+#Update Windows
+- name: Update System Windows (Windows)
+  win_updates:
+    category_names:
+      - SecurityUpdates
+  when: ansible_facts['os_family'] == "Windows"
 
 ...
 
-# based on discuss here http://comments.gmane.org/gmane.comp.sysutils.ansible/4685
+# https://docs.ansible.com/ansible/latest/user_guide/playbooks_conditionals.html
 
 # OS_FAMILY = dict(
 #             RedHat = 'RedHat',
