@@ -363,6 +363,51 @@ roles/common/tasks/main.yml
 
 ```
 
+### Example Task
+
+```yml
+
+---
+
+- name: Update System
+  package:
+    name: '*'
+    state: latest
+    update_cache: yes
+
+
+- name: Install Packages
+  package:
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - "{{ common_packages }}"
+
+...
+
+```
+
+### Example Template
+
+File: examples/roles-tasks/roles/set-motd/templatestemplates/motd.j2
+
+```sh
+------------------------------------------------
+            Welcome to the Jungle
+------------------------------------------------
+
+------------------------------------------------
+              Linux Information
+------------------------------------------------
+
+IP's: "{{ ansible_all_ipv4_addresses }}
+Linux Distribution: "{{ ansible_distribution_file_variety }}"
+Linux Distribution Major Version: "{{ ansible_distribution_major_version }}"
+Linux Distribution Release: "{{ ansible_distribution_release }}""
+Linux Distribution Version: "{{ ansible_distribution_version }}"
+------------------------------------------------
+```
+
 ## AWX
 
 ### Architecture of awx
@@ -514,7 +559,7 @@ kubectl apply -f ingress.yml
 #### Access AWX Web Gui
 
 >URL: <http://debian-ansible-master>\
-User: admin
+User: admin\
 Password: vagrant
 
 #### Some Important Commands
@@ -524,23 +569,38 @@ Password: vagrant
 #kubectl config set-context --current --namespace=awx
 
 #Get secrets
-kubectl get secrets
+kubectl get secrets -n awx
 
 #Decrypt secret
-kubectl get secret awx-admin-password -o jsonpath="{.data.password}"| base64 --decode
+kubectl -n awx get secret awx-admin-password -o jsonpath="{.data.password}"| base64 --decode
 
 #list pod
 kubectl get pods
 
+#describe pods
+kubectl describe pod/awx-5ffbfd489c-6pt8z -n awx
+
 #inspect pods
-kubectl get events -w
+kubectl get events -w -n awx
 
 #list services
-kubectl get services
+kubectl get services -n awx
 
 #list ingress
-kubectl get ingress
+kubectl get ingress -n awx
 
+#List all conteiners in cluster
+kubectl get pods --all-namespaces -o jsonpath="{.items[*].spec.containers[*].image}" |\
+tr -s '[[:space:]]' '\n' |\
+sort |\
+uniq -c
+
+# Create user admin
+kubectl -n awx exec -it awx-dd8599fb4-bxwp7 -c awx-web -- awx-manage createsuperuser
+
+# Reset password
+kubectl -n awx exec -it awx-dd8599fb4-bxwp7 -c awx-web -- awx-manage update_password --username=admin --password=test@123
+kubectl -n awx exec -it awx-dd8599fb4-bxwp7 -c awx-web -- awx-manage migrate
 
 #Access Kubernets Dashboard
 ##Get token

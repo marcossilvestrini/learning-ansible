@@ -51,14 +51,14 @@ curl -sfL https://get.k3s.io | sh -
 systemctl enable k3s
 chown vagrant:vagrant .kube/config
 
-# # Deploy AWX
-# kubectl apply -f /home/vagrant/configs/awx/staging/namespace.yml
-# kubectl apply -f /home/vagrant/configs/awx/staging/secrets.yml
+# Deploy AWX
+kubectl apply -f /home/vagrant/configs/awx/staging/namespace.yml
+kubectl apply -f /home/vagrant/configs/awx/staging/secrets.yml
 
-# git clone https://github.com/ansible/awx-operator.git
-# cd awx-operator || exit
-# git checkout 0.20.0
-# export NAMESPACE=awx-dev
-# make deploy
-# kubectl apply -f /home/vagrant/configs/awx/staging/awx.yml
-# kubectl apply -f /home/vagrant/configs/awx/staging/ingress.yml
+git clone https://github.com/ansible/awx-operator.git
+cd awx-operator || exit
+git checkout 0.20.0
+export NAMESPACE=awx-dev
+make deploy
+kubectl apply -f /home/vagrant/configs/awx/staging/awx.yml
+kubectl apply -f /home/vagrant/configs/awx/staging/ingress.yml

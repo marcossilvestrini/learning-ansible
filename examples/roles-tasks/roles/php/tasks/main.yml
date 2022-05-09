@@ -1,0 +1,10 @@
+---
+
+# Install php
+- name: Install php
+  package:
+    name: php
+    state: latest
+
+...
+
