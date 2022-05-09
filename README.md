@@ -609,3 +609,16 @@ kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get
 ##URL
 http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
 ```
+
+### AWX Organization
+
+An organization is a logical collection of Users, Teams, Projects, and Inventories, and is the highest level in the Tower object hierarchy.
+
+![image](https://user-images.githubusercontent.com/62715900/167492381-b0faaefa-c41e-4095-a927-8065a960127e.png)
+
+Examples for organization:
+
+- Infrastructure
+- Seginfo
+- Development
+- Network
